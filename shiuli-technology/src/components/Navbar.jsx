@@ -69,7 +69,7 @@ export default function Navbar() {
             className="flex shrink-0 items-center"
           >
             <img
-              src="/logo.png"
+              src="/logo.webp"
               alt="Shiuli Technology"
               className="h-12 w-auto max-w-[175px] object-contain sm:h-[58px] sm:max-w-[200px]"
             />
@@ -144,7 +144,7 @@ export default function Navbar() {
             className="flex items-center"
           >
             <img
-              src="/logo.png"
+              src="/logo.webp"
               alt="Shiuli Technology"
               className="h-12 w-auto max-w-[180px] object-contain"
             />

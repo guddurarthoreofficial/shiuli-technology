@@ -191,7 +191,7 @@ export default function Contact() {
             <div className="relative overflow-hidden rounded-[2rem] border border-white bg-white p-3 shadow-2xl shadow-green-950/10 sm:p-4">
               <div className="rounded-[1.5rem] bg-gradient-to-br from-green-950 via-green-900 to-green-800 p-7 text-white sm:p-10">
                 <img
-                  src="/logo.png"
+                  src="/logo.webp"
                   alt="Shiuli Technology"
                   className="h-20 w-auto max-w-full rounded-xl bg-white p-2 object-contain sm:h-24"
                 />

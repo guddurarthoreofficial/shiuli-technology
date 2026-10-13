@@ -212,7 +212,7 @@ export default function About() {
             <div className="absolute -inset-3 rounded-[2rem] bg-gradient-to-br from-green-100 to-orange-100 blur-lg" />
             <div className="relative overflow-hidden rounded-[2rem] border border-green-100 bg-gradient-to-br from-[#f1f9f2] to-[#fff7ed] p-6 sm:p-9">
               <img
-                src="/logo.png"
+                src="/logo.webp"
                 alt="Shiuli Technology logo"
                 className="mx-auto max-h-40 w-full object-contain sm:max-h-48"
               />
