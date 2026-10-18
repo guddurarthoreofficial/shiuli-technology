@@ -1,424 +1,528 @@
+import { Fragment, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
+import ShiuliMark from '../components/ShiuliMark';
+import './Home.css';
 
-import { Link } from 'react-router-dom'
-import {
-    ArrowRight,
-    ArrowUpRight,
-    Code2,
-    Smartphone,
-    GraduationCap,
-    Lightbulb,
-    Palette,
-    Globe,
-    ShieldCheck,
-    Sparkles,
-} from 'lucide-react'
+const CONTACT_EMAIL = 'hello@shiulitech.in'; // placeholder, apna real email daalo
 
-const services = [
-    {
-        icon: Code2,
-        title: 'Web Development',
-        text: 'Modern, responsive websites for businesses, schools and startups.',
-        color: 'bg-green-100 text-green-800',
-    },
-    {
-        icon: Smartphone,
-        title: 'App Development',
-        text: 'Mobile-friendly digital products and cross-platform applications.',
-        color: 'bg-orange-100 text-orange-700',
-    },
-    {
-        icon: Lightbulb,
-        title: 'IT Consulting',
-        text: 'Practical technology guidance, planning and digital transformation.',
-        color: 'bg-blue-100 text-blue-700',
-    },
-    {
-        icon: GraduationCap,
-        title: 'Internship & Training',
-        text: 'Build practical skills through guided projects and mentorship.',
-        color: 'bg-purple-100 text-purple-700',
-    },
-]
+const STORY =
+  'The shiuli opens after dark. By morning it has covered the ground in white, and the whole garden smells of it. We build software the same way: quietly, through the night, so that what you wake up to is finished and worth walking out to.';
+const WORDS = STORY.split(' ');
+const TITLE = 'Shiuli'.split('');
 
-const projects = [
-    {
-        title: 'School Attendance System',
-        category: 'Education Technology',
-        text: 'Face verification and GPS-based attendance designed for school workflows.',
-        image:
-            'https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=900&q=80',
-        icon: GraduationCap,
-    },
-    {
-        title: 'HM Dance Studio',
-        category: 'Website & Management',
-        text: 'A dance studio portal concept for courses, admissions and student services.',
-        image:
-            'https://images.unsplash.com/photo-1504609813442-a8924e83f76e?auto=format&fit=crop&w=900&q=80',
-        icon: Sparkles,
-    },
-    {
-        title: 'Hospital Management',
-        category: 'Healthcare Technology',
-        text: 'A management solution concept for hospital information and workflows.',
-        image:
-            'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=900&q=80',
-        icon: ShieldCheck,
-    },
-]
+const SERVICES = [
+  ['Web applications', 'MERN-stack products, dashboards and portals that stay fast as they grow.'],
+  ['Backend and APIs', 'Node.js services, databases and integrations that are secure and easy to maintain.'],
+  ['Mobile apps', 'One codebase that feels at home on every phone, from first launch to the tenth update.'],
+  ['Design and brand', 'Interfaces and identities with the same calm clarity as this page.'],
+];
+
+const PILLARS = [
+  ['Calm by design', 'Interfaces that stay out of the way and let the work speak.'],
+  ['Built to last', 'Clean code, tested releases and documentation the next team can use.'],
+  ['Ready by morning', 'Delivery in clear milestones, so you always know what comes next.'],
+];
+
+const STEPS = [
+  ['01', 'Listen', 'We start with your users, your goals and your limits.'],
+  ['02', 'Design', 'Flows and visuals you can react to early, not at the end.'],
+  ['03', 'Build', 'Regular builds on a stack chosen to scale with you.'],
+  ['04', 'Launch', 'Deployment, monitoring and support long after go-live.'],
+];
+
+/* ---------- helpers (pure, no DOM until called) ---------- */
+const lerp = (a, b, t) => a + (b - a) * t;
+const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+const rand = (a, b) => a + Math.random() * (b - a);
+const smooth = t => t * t * (3 - 2 * t);
+const mix = (a, b, t) => a.map((v, i) => Math.round(lerp(v, b[i], t)));
+
+const SKY = [
+  { top: [4, 10, 16], mid: [7, 22, 26], hor: [10, 36, 32] },
+  { top: [6, 26, 30], mid: [13, 47, 46], hor: [27, 74, 63] },
+  { top: [11, 36, 40], mid: [32, 65, 58], hor: [120, 86, 70] },
+];
+
+/* shiuli flower drawn procedurally; variant 1 shows the orange tube */
+function makeSprite(variant, soft) {
+  const S = 160;
+  const c = document.createElement('canvas');
+  c.width = c.height = S;
+  const g = c.getContext('2d');
+  g.translate(S / 2, S / 2);
+  const L = S * 0.46;
+  if (soft && 'filter' in g) g.filter = 'blur(4px)';
+  for (let i = 0; i < 5; i++) {
+    g.save();
+    g.rotate((i * Math.PI * 2) / 5);
+    g.beginPath();
+    g.moveTo(0, 0);
+    g.bezierCurveTo(L * 0.34, -L * 0.1, L * 0.52, -L * 0.62, L * 0.14, -L);
+    g.bezierCurveTo(-L * 0.12, -L * 0.94, -L * 0.3, -L * 0.52, 0, 0);
+    const grd = g.createRadialGradient(0, 0, 0, 0, 0, L);
+    grd.addColorStop(0, '#ff8a2a');
+    grd.addColorStop(0.07, '#ffb35e');
+    grd.addColorStop(0.17, '#fff0da');
+    grd.addColorStop(0.4, '#ffffff');
+    grd.addColorStop(1, '#eef2ec');
+    g.fillStyle = grd;
+    g.fill();
+    g.strokeStyle = 'rgba(30,50,40,.14)';
+    g.lineWidth = 1;
+    g.stroke();
+    g.restore();
+  }
+  if (variant === 1) {
+    g.save();
+    g.rotate(-0.85);
+    g.lineCap = 'round';
+    const t = g.createLinearGradient(0, 0, 0, -L * 0.8);
+    t.addColorStop(0, '#ff8a1f');
+    t.addColorStop(1, '#ff5a00');
+    g.strokeStyle = t;
+    g.lineWidth = L * 0.13;
+    g.beginPath();
+    g.moveTo(0, 0);
+    g.lineTo(0, -L * 0.8);
+    g.stroke();
+    g.restore();
+  }
+  g.fillStyle = '#ff7a1f';
+  g.beginPath();
+  g.arc(0, 0, L * 0.065, 0, 7);
+  g.fill();
+  return c;
+}
+
+function makeBlob() {
+  const c = document.createElement('canvas');
+  c.width = c.height = 64;
+  const g = c.getContext('2d');
+  const r = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+  r.addColorStop(0, 'rgba(255,238,205,1)');
+  r.addColorStop(0.45, 'rgba(255,232,190,.35)');
+  r.addColorStop(1, 'rgba(255,230,185,0)');
+  g.fillStyle = r;
+  g.fillRect(0, 0, 64, 64);
+  return c;
+}
 
 export default function Home() {
-    return (
-        <main className="overflow-hidden bg-white">
-            {/* HERO */}
-            <section className="relative isolate bg-gradient-to-br from-white via-[#f3faf5] to-[#fff6ed]">
-                <div className="pointer-events-none absolute -left-24 top-16 -z-10 h-72 w-72 rounded-full bg-green-200/50 blur-3xl" />
-                <div className="pointer-events-none absolute right-0 top-0 -z-10 h-80 w-80 rounded-full bg-orange-100/60 blur-3xl" />
+  const skyRef = useRef(null);
+  const moonRef = useRef(null);
+  const canvasRef = useRef(null);
+  const railFillRef = useRef(null);
+  const railIconRef = useRef(null);
+  const heroInnerRef = useRef(null);
+  const storyRef = useRef(null);
+  const scentRef = useRef(null);
+  const stepsRef = useRef(null);
+  const stepsFillRef = useRef(null);
 
-                <div className="container-width grid items-center gap-12 py-14 sm:py-20 lg:grid-cols-2 lg:gap-16 lg:py-24">
-                    <div>
-                        <div className="inline-flex items-center gap-2 rounded-full border border-green-200 bg-white/90 px-4 py-2 text-xs font-bold tracking-wide text-green-900 shadow-sm sm:text-sm">
-                            <Sparkles size={15} className="text-orange-500" />
-                            IDEAS · TECHNOLOGY · BETTER TOMORROW
-                        </div>
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    const skyEl = skyRef.current;
+    const moonEl = moonRef.current;
+    const heroEl = heroInnerRef.current;
+    const storyEl = storyRef.current;
+    const scentEl = scentRef.current;
+    const stepsEl = stepsRef.current;
+    const stepsFill = stepsFillRef.current;
+    const railFill = railFillRef.current;
+    const railIcon = railIconRef.current;
+    const wordEls = [...storyEl.querySelectorAll('.sh-w')];
+    const stepEls = [...stepsEl.querySelectorAll('.sh-step')];
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-                        <h1 className="mt-7 text-4xl font-black leading-[1.12] tracking-tight text-slate-950 sm:text-5xl lg:text-[62px]">
-                            Turning Ideas into
-                            <span className="mt-1 block text-green-800">
-                                Digital <span className="text-orange-500">Reality.</span>
-                            </span>
-                        </h1>
+    let W = 0;
+    let H = 0;
+    let mobile = false;
+    let raf = 0;
 
-                        <p className="mt-6 max-w-xl text-base leading-8 text-slate-600 sm:text-lg">
-                            We build modern digital solutions for businesses, schools,
-                            startups and individuals. From websites to custom software,
-                            let’s turn your idea into something meaningful.
-                        </p>
+    const sp = {
+      sharp: [makeSprite(0, false), makeSprite(1, false)],
+      soft: [makeSprite(0, true), makeSprite(1, true)],
+    };
+    const blob = makeBlob();
 
-                        <div className="mt-8 flex flex-wrap gap-3">
-                            <Link
-                                to="/contact"
-                                className="inline-flex items-center gap-2 rounded-full bg-green-800 px-6 py-3.5 font-bold text-white shadow-lg shadow-green-900/20 transition hover:-translate-y-1 hover:bg-green-950"
-                            >
-                                Start Your Project
-                                <ArrowRight size={18} />
-                            </Link>
+    const fall = [];
+    const ground = [];
+    const wisps = [];
+    const stars = [];
+    const st = { p: 0, sp: 0, wind: 0, speed: 1, scent: 0 };
+    let lastY = window.scrollY;
+    let spawnAcc = 0;
+    let wispAcc = 0;
+    let pruneT = 0;
 
-                            <Link
-                                to="/projects"
-                                className="inline-flex items-center gap-2 rounded-full border border-green-800/25 bg-white px-6 py-3.5 font-bold text-green-900 transition hover:border-green-800 hover:bg-green-50"
-                            >
-                                Explore Our Work
-                                <ArrowUpRight size={18} />
-                            </Link>
-                        </div>
+    const pageMax = () => document.documentElement.scrollHeight - window.innerHeight;
+    st.p = st.sp = pageMax() > 0 ? clamp(window.scrollY / pageMax()) : 0;
 
-                        <div className="mt-10 grid max-w-lg grid-cols-3 border-t border-green-900/10 pt-6">
-                            <div className="pr-3">
-                                <Code2 className="mb-2 text-green-800" size={23} />
-                                <p className="text-sm font-extrabold text-slate-900 sm:text-base">
-                                    Web Solutions
-                                </p>
-                                <p className="mt-1 text-xs leading-5 text-slate-500">
-                                    Built for your goals
-                                </p>
-                            </div>
+    function resize() {
+      const DPR = Math.min(window.devicePixelRatio || 1, 2);
+      W = window.innerWidth;
+      H = window.innerHeight;
+      mobile = W < 700;
+      canvas.width = W * DPR;
+      canvas.height = H * DPR;
+      canvas.style.width = W + 'px';
+      canvas.style.height = H + 'px';
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      stars.length = 0;
+      const n = mobile ? 60 : 110;
+      for (let i = 0; i < n; i++) {
+        stars.push({ x: Math.random(), y: Math.random() * 0.7, r: rand(0.4, 1.3), ph: rand(0, 6.28), s: rand(0.6, 1.8) });
+      }
+    }
+    window.addEventListener('resize', resize);
+    resize();
 
-                            <div className="border-l border-green-900/10 px-3 sm:px-5">
-                                <Lightbulb className="mb-2 text-orange-500" size={23} />
-                                <p className="text-sm font-extrabold text-slate-900 sm:text-base">
-                                    Smart Ideas
-                                </p>
-                                <p className="mt-1 text-xs leading-5 text-slate-500">
-                                    Practical technology
-                                </p>
-                            </div>
+    const maxGround = () => (mobile ? 150 : 320);
+    const targetGround = () => Math.round(10 + (maxGround() - 10) * smooth(clamp((st.sp - 0.04) / 0.88)));
+    const activeGround = () => {
+      let n = 0;
+      for (const g of ground) if (!g.fade) n++;
+      return n;
+    };
 
-                            <div className="border-l border-green-900/10 pl-3 sm:pl-5">
-                                <GraduationCap className="mb-2 text-green-800" size={23} />
-                                <p className="text-sm font-extrabold text-slate-900 sm:text-base">
-                                    Learning
-                                </p>
-                                <p className="mt-1 text-xs leading-5 text-slate-500">
-                                    Practical experience
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+    /* ---------- flowers ---------- */
+    function spawnFlower(y0) {
+      const cap = mobile ? 60 : 130;
+      if (fall.length > cap) return;
+      const k = mobile ? 0.7 : 1;
+      const r = Math.random();
+      let size;
+      let vy;
+      let alpha;
+      let depth;
+      let soft = false;
+      if (r < 0.15) { soft = true; size = rand(70, 120) * k; vy = rand(90, 150); alpha = 0.72; depth = 1.6; }
+      else if (r < 0.68) { size = rand(34, 56) * k; vy = rand(55, 90); alpha = 1; depth = 1; }
+      else { size = rand(20, 32) * k; vy = rand(34, 52); alpha = 0.62; depth = 0.6; }
+      fall.push({
+        x: rand(-0.05, 1.05) * W,
+        y: y0 == null ? -size : y0,
+        vy, size, alpha, soft, depth,
+        v: Math.random() < 0.4 ? 1 : 0,
+        rot: rand(0, 6.28), rs: rand(-0.9, 0.9),
+        flip: rand(0, 6.28), fs: rand(1, 2.4),
+        t: y0 == null ? 0 : 1, ph: rand(0, 6.28), fr: rand(0.5, 1.2), amp: rand(14, 42) * depth,
+        lf: 0.905 + Math.pow(Math.random(), 0.8) * 0.08,
+      });
+    }
 
-                    {/* HERO VISUAL */}
+    function spawnWisp(x, y) {
+      const cap = mobile ? 40 : 85;
+      if (wisps.length > cap) return;
+      if (x == null) {
+        if (!ground.length) return;
+        const g = ground[(Math.random() * ground.length) | 0];
+        x = g.gx * W + rand(-10, 10);
+        y = g.lf * H - 4;
+      }
+      wisps.push({ x, y, vy: rand(14, 34), t: 0, life: rand(6, 11), s0: rand(8, 16), s1: rand(50, 110), ph: rand(0, 6.28), amp: rand(12, 40), fr: rand(0.4, 0.9) });
+    }
 
-                    {/* PREMIUM FLORAL HERO VISUAL */}
-                    <div className="relative mx-auto w-full max-w-xl lg:scale-110">
-                        <div className="absolute inset-8 rounded-full bg-green-200/50 blur-3xl" />
-                        <div className="absolute right-5 top-8 h-32 w-32 rounded-full bg-orange-200/40 blur-3xl" />
+    function land(f) {
+      const full = activeGround() >= targetGround() + 6;
+      const depthScale = 0.75 + 0.55 * ((f.lf - 0.905) / 0.08);
+      ground.push({ gx: f.x / W, lf: f.lf, rot: f.rot, size: clamp(f.size, 20, 40) * depthScale, v: f.v, a: 0, fade: full });
+      ground.sort((a, b) => a.lf - b.lf);
+      if (!reduce && Math.random() < 0.6) spawnWisp(f.x, f.lf * H);
+    }
 
-                        <div className="relative">
-                            <img
-                                src="/shiuli-hero.png"
-                                alt="Shiuli Technology floral technology artwork"
-                                fetchPriority="high"
-                                className="relative z-10 w-full object-contain drop-shadow-xl"
-                            />
+    /* ---------- sky ---------- */
+    function paintSky(p) {
+      let a = SKY[0];
+      let b = SKY[1];
+      let t = p / 0.5;
+      if (p > 0.5) { a = SKY[1]; b = SKY[2]; t = (p - 0.5) / 0.5; }
+      t = smooth(clamp(t));
+      const top = mix(a.top, b.top, t);
+      const mid = mix(a.mid, b.mid, t);
+      const hor = mix(a.hor, b.hor, t);
+      skyEl.style.background = `linear-gradient(180deg, rgb(${top}) 0%, rgb(${mid}) 55%, rgb(${hor}) 100%)`;
+      skyEl.style.setProperty('--dawn', (0.5 * smooth(clamp((p - 0.45) / 0.55))).toFixed(3));
+      moonEl.style.opacity = (1 - 0.8 * p).toFixed(3);
+      moonEl.style.transform = `translateY(${(-p * 70).toFixed(1)}px)`;
+    }
 
-                            <div className="absolute bottom-3 right-0 z-20 rounded-2xl border border-green-100 bg-white/95 p-4 shadow-xl backdrop-blur-sm sm:-right-3">
-                                <div className="flex items-center gap-3">
-                                    <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-orange-100 text-orange-600">
-                                        <Sparkles size={23} />
-                                    </span>
-                                    <div>
-                                        <p className="text-sm font-extrabold text-green-900">
-                                            Built Around Your Ideas
-                                        </p>
-                                        <p className="mt-1 text-xs text-slate-500">
-                                            Design · Code · Innovation
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    /* ---------- render ---------- */
+    function render(t) {
+      ctx.clearRect(0, 0, W, H);
+
+      const starFade = 1 - smooth(clamp((st.sp - 0.1) / 0.6));
+      if (starFade > 0.01) {
+        ctx.fillStyle = '#fff';
+        for (const s of stars) {
+          ctx.globalAlpha = starFade * (0.35 + 0.65 * (0.5 + 0.5 * Math.sin(t * s.s + s.ph))) * 0.9;
+          ctx.beginPath();
+          ctx.arc(s.x * W, s.y * H, s.r, 0, 7);
+          ctx.fill();
+        }
+      }
+
+      ctx.globalAlpha = 1;
+      const gr = ctx.createLinearGradient(0, H * 0.86, 0, H);
+      gr.addColorStop(0, 'rgba(3,12,9,0)');
+      gr.addColorStop(0.45, 'rgba(3,12,9,.82)');
+      gr.addColorStop(1, 'rgba(2,8,6,1)');
+      ctx.fillStyle = gr;
+      ctx.fillRect(0, H * 0.86, W, H * 0.14);
+
+      ctx.globalCompositeOperation = 'lighter';
+      const mistA = 0.035 + 0.05 * clamp(st.scent, 0, 1);
+      for (let i = 0; i < 5; i++) {
+        const x = ((((i / 5) * W + t * (i % 2 ? 9 : -7) + W) % (W * 1.2)) - W * 0.1);
+        ctx.globalAlpha = mistA;
+        ctx.drawImage(blob, x - W * 0.25, H * 0.9, W * 0.5, H * 0.1);
+      }
+
+      ctx.globalCompositeOperation = 'source-over';
+      for (const g of ground) {
+        const s = (g.size * 160) / 147;
+        ctx.globalAlpha = clamp(g.a) * 0.96;
+        ctx.save();
+        ctx.translate(g.gx * W, g.lf * H);
+        ctx.scale(1, 0.42);
+        ctx.rotate(g.rot);
+        ctx.drawImage(sp.sharp[g.v], -s / 2, -s / 2, s, s);
+        ctx.restore();
+      }
+
+      ctx.globalCompositeOperation = 'lighter';
+      for (const w of wisps) {
+        for (let j = 0; j < 3; j++) {
+          const tt = w.t - j * 0.35;
+          if (tt <= 0) continue;
+          const k = tt / w.life;
+          const x = w.x + Math.sin(w.ph + tt * w.fr) * w.amp * k * 2;
+          const y = w.y - w.vy * tt;
+          const s = lerp(w.s0, w.s1, k);
+          ctx.globalAlpha = Math.sin(Math.PI * k) * 0.11 * (1 - j * 0.28);
+          ctx.drawImage(blob, x - s, y - s, s * 2, s * 2);
+        }
+      }
+      ctx.globalCompositeOperation = 'source-over';
+
+      /* sharp flowers first, soft (near, out of focus) on top */
+      for (let pass = 0; pass < 2; pass++) {
+        for (const f of fall) {
+          if ((pass === 1) !== f.soft) continue;
+          const s = (f.size * 160) / 147;
+          ctx.globalAlpha = f.alpha * Math.min(1, f.t * 2);
+          ctx.save();
+          ctx.translate(f.x, f.y);
+          ctx.rotate(f.rot);
+          ctx.scale(1, 0.28 + 0.72 * Math.abs(Math.cos(f.flip)));
+          ctx.drawImage((f.soft ? sp.soft : sp.sharp)[f.v], -s / 2, -s / 2, s, s);
+          ctx.restore();
+        }
+      }
+      ctx.globalAlpha = 1;
+    }
+
+    /* ---------- frame loop ---------- */
+    let last = performance.now();
+    function frame(now) {
+      const dt = Math.min(0.05, (now - last) / 1000);
+      last = now;
+      const t = now / 1000;
+      const scrollY = window.scrollY;
+
+      const max = pageMax();
+      st.p = max > 0 ? clamp(scrollY / max) : 0;
+      st.sp += (st.p - st.sp) * Math.min(1, dt * 5);
+      const vel = dt > 0 ? (scrollY - lastY) / dt : 0;
+      lastY = scrollY;
+      st.wind += (clamp(vel * 0.06, -220, 220) - st.wind) * Math.min(1, dt * 3);
+      st.speed += (1 + clamp(Math.abs(vel) / 1400, 0, 1.2) - st.speed) * Math.min(1, dt * 3);
+
+      const sr = scentEl.getBoundingClientRect();
+      const boost = 1 - clamp(Math.abs(sr.top + sr.height / 2 - H / 2) / (H * 0.9));
+      st.scent = clamp(smooth(clamp((st.sp - 0.15) / 0.55)) * 0.8 + boost * 0.6, 0, 1.4);
+
+      paintSky(st.sp);
+
+      if (!reduce) {
+        const rate = lerp(1.1, 15, Math.pow(st.sp, 0.85));
+        spawnAcc += rate * dt;
+        while (spawnAcc >= 1) { spawnAcc--; spawnFlower(); }
+        wispAcc += st.scent * 16 * (0.3 + 0.7 * Math.min(1, ground.length / 60)) * dt;
+        while (wispAcc >= 1) { wispAcc--; spawnWisp(); }
+      } else {
+        const target = targetGround();
+        while (activeGround() < target) {
+          ground.push({ gx: Math.random(), lf: 0.905 + Math.pow(Math.random(), 0.8) * 0.08, rot: rand(0, 6.28), size: rand(22, 40), v: Math.random() < 0.4 ? 1 : 0, a: 1, fade: false });
+        }
+        ground.sort((a, b) => a.lf - b.lf);
+      }
+
+      for (let i = fall.length - 1; i >= 0; i--) {
+        const f = fall[i];
+        f.t += dt;
+        f.y += f.vy * st.speed * dt;
+        f.x += (Math.sin(f.t * f.fr + f.ph) * f.amp + st.wind * f.depth) * dt;
+        f.rot += f.rs * dt;
+        f.flip += f.fs * dt;
+        if (f.soft) { if (f.y > H + f.size) fall.splice(i, 1); continue; }
+        if (f.y >= f.lf * H) { land(f); fall.splice(i, 1); }
+      }
+
+      for (let i = ground.length - 1; i >= 0; i--) {
+        const g = ground[i];
+        g.a = g.fade ? g.a - dt * 1.2 : Math.min(1, g.a + dt * 4);
+        if (g.fade && g.a <= 0) ground.splice(i, 1);
+      }
+      pruneT += dt;
+      if (pruneT > 0.6) {
+        pruneT = 0;
+        let extra = activeGround() - (targetGround() + 8);
+        for (let i = ground.length - 1; i >= 0 && extra > 0; i--) {
+          const j = (Math.random() * ground.length) | 0;
+          if (!ground[j].fade) { ground[j].fade = true; extra--; }
+        }
+      }
+
+      for (let i = wisps.length - 1; i >= 0; i--) {
+        wisps[i].t += dt;
+        if (wisps[i].t > wisps[i].life) wisps.splice(i, 1);
+      }
+
+      /* DOM scrubs */
+      const hr = clamp(scrollY / (H * 0.7));
+      heroEl.style.opacity = (1 - hr).toFixed(3);
+      heroEl.style.transform = `translateY(${(hr * -40).toFixed(1)}px) scale(${(1 + hr * 0.04).toFixed(3)})`;
+
+      const sb = storyEl.getBoundingClientRect();
+      const q = clamp(-sb.top / (sb.height - H));
+      const n = q * (wordEls.length + 2);
+      for (let i = 0; i < wordEls.length; i++) wordEls[i].style.opacity = (0.14 + 0.86 * clamp(n - i)).toFixed(2);
+
+      const pr = stepsEl.getBoundingClientRect();
+      const fill = clamp((H * 0.85 - pr.top) / (H * 0.5));
+      stepsFill.style.transform = `scaleX(${fill.toFixed(3)})`;
+      stepEls.forEach((el, i) => el.classList.toggle('on', fill > 0 && fill > i / 3 - 0.02));
+
+      railFill.style.transform = `scaleY(${st.sp.toFixed(3)})`;
+      railIcon.style.top = (st.sp * 100).toFixed(2) + '%';
+      railIcon.style.transform = `rotate(${(st.sp * 720).toFixed(0)}deg)`;
+
+      render(t);
+      raf = requestAnimationFrame(frame);
+    }
+
+    /* seed the opening so the first frame is already alive */
+    if (!reduce) for (let i = 0; i < 14; i++) spawnFlower(rand(0, H * 0.75));
+    raf = requestAnimationFrame(frame);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener('resize', resize);
+    };
+  }, []);
+
+  return (
+    <div className="shiuli-home">
+      <div className="sh-sky" ref={skyRef} />
+      <div className="sh-moon" ref={moonRef} />
+      <canvas className="sh-scene" ref={canvasRef} aria-hidden="true" />
+
+      <div className="sh-rail" aria-hidden="true">
+        <i className="sh-rail-fill" ref={railFillRef} />
+        <span className="sh-rail-icon" ref={railIconRef}>
+          <ShiuliMark />
+        </span>
+      </div>
+
+      <main className="sh-main">
+        <section className="sh-hero">
+          <div className="sh-hero-inner" ref={heroInnerRef}>
+            <h1 className="sh-title" aria-label="Shiuli Technology">
+              <span className="sh-word" aria-hidden="true">
+                {TITLE.map((ch, i) => (
+                  <span key={i} style={{ '--i': i }}>{ch}</span>
+                ))}
+              </span>
+              <span className="sh-sub" aria-hidden="true">Technology</span>
+            </h1>
+            <p className="sh-tag">Software that blooms after dark.</p>
+            <p className="sh-deva" lang="hi">शिउली टेक्नोलॉजी</p>
+          </div>
+          <div className="sh-cue" aria-hidden="true">
+            <span>Scroll</span>
+            <b />
+          </div>
+        </section>
+
+        <section className="sh-story" ref={storyRef} aria-label="Our story">
+          <div className="sh-story-inner">
+            <div className="sh-wrap">
+              <p className="sh-story-text">
+                {WORDS.map((w, i) => (
+                  <Fragment key={i}>
+                    <span className="sh-w">{w}</span>{' '}
+                  </Fragment>
+                ))}
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section className="sh-work">
+          <div className="sh-wrap">
+            <h2>What we make</h2>
+            <ul className="sh-rows">
+              {SERVICES.map(([title, text]) => (
+                <li key={title}>
+                  <h3>{title}</h3>
+                  <p>{text}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        <section className="sh-scent" ref={scentRef}>
+          <div className="sh-wrap">
+            <h2>The scent travels further than the flower.</h2>
+            <div className="sh-three">
+              {PILLARS.map(([title, text]) => (
+                <div key={title}>
+                  <h3>{title}</h3>
+                  <p>{text}</p>
                 </div>
-            </section>
+              ))}
+            </div>
+          </div>
+        </section>
 
-            {/* SERVICES */}
-            <section className="section-padding bg-white">
-                <div className="container-width">
-                    <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
-                        <div>
-                            <p className="text-sm font-bold uppercase tracking-[0.18em] text-orange-600">
-                                What we do
-                            </p>
-                            <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
-                                Technology that{' '}
-                                <span className="text-green-800">moves you forward.</span>
-                            </h2>
-                            <p className="mt-3 max-w-2xl leading-7 text-slate-600">
-                                From your first website to a complete digital solution, we help
-                                you move from idea to execution.
-                            </p>
-                        </div>
-
-                        <Link
-                            to="/services"
-                            className="inline-flex shrink-0 items-center gap-2 font-bold text-green-800 transition hover:text-orange-600"
-                        >
-                            View all services <ArrowRight size={18} />
-                        </Link>
-                    </div>
-
-                    <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-                        {services.map(({ icon: Icon, title, text, color }) => (
-                            <Link
-                                to="/services"
-                                key={title}
-                                className="group rounded-3xl border border-slate-200/80 bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-green-200 hover:shadow-xl hover:shadow-green-950/5"
-                            >
-                                <div
-                                    className={`flex h-14 w-14 items-center justify-center rounded-2xl ${color}`}
-                                >
-                                    <Icon size={27} />
-                                </div>
-
-                                <h3 className="mt-5 text-lg font-extrabold text-slate-900">
-                                    {title}
-                                </h3>
-
-                                <p className="mt-3 text-sm leading-7 text-slate-600">
-                                    {text}
-                                </p>
-
-                                <div className="mt-5 flex items-center gap-2 text-sm font-bold text-green-800">
-                                    Learn more
-                                    <ArrowRight
-                                        size={16}
-                                        className="transition group-hover:translate-x-1"
-                                    />
-                                </div>
-                            </Link>
-                        ))}
-                    </div>
+        <section className="sh-process">
+          <div className="sh-wrap">
+            <h2>From first idea to full bloom</h2>
+            <div className="sh-steps" ref={stepsRef}>
+              <div className="sh-fill" ref={stepsFillRef} />
+              {STEPS.map(([num, title, text]) => (
+                <div className="sh-step" key={num}>
+                  <span>{num}</span>
+                  <h3>{title}</h3>
+                  <p>{text}</p>
                 </div>
-            </section>
+              ))}
+            </div>
+          </div>
+        </section>
 
-            {/* PROJECTS */}
-            <section className="section-padding bg-[#f5faf6]">
-                <div className="container-width">
-                    <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
-                        <div>
-                            <p className="text-sm font-bold uppercase tracking-[0.18em] text-orange-600">
-                                Selected work
-                            </p>
-                            <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
-                                Projects built around{' '}
-                                <span className="text-green-800">real needs.</span>
-                            </h2>
-                            <p className="mt-3 max-w-2xl leading-7 text-slate-600">
-                                Explore our work across education, healthcare and digital
-                                experiences.
-                            </p>
-                        </div>
-
-                        <Link
-                            to="/projects"
-                            className="inline-flex shrink-0 items-center gap-2 font-bold text-green-800 transition hover:text-orange-600"
-                        >
-                            Explore projects <ArrowRight size={18} />
-                        </Link>
-                    </div>
-
-                    <div className="mt-10 grid gap-6 md:grid-cols-3">
-                        {projects.map((project) => (
-                            <article
-                                key={project.title}
-                                className="group overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl"
-                            >
-                                <div className="relative overflow-hidden">
-                                    <img
-                                        src={project.image}
-                                        alt={project.title}
-                                        loading="lazy"
-                                        className="h-52 w-full object-cover transition duration-500 group-hover:scale-105"
-                                    />
-                                    <span className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full bg-white/95 px-3 py-2 text-xs font-bold text-green-900 shadow-sm">
-                                        <project.icon size={15} />
-                                        {project.category}
-                                    </span>
-                                </div>
-
-                                <div className="p-6">
-                                    <h3 className="text-xl font-extrabold text-slate-900">
-                                        {project.title}
-                                    </h3>
-
-                                    <p className="mt-3 text-sm leading-7 text-slate-600">
-                                        {project.text}
-                                    </p>
-
-                                    <Link
-                                        to="/projects"
-                                        className="mt-5 inline-flex items-center gap-2 font-bold text-green-800 transition hover:text-orange-600"
-                                    >
-                                        View projects <ArrowRight size={16} />
-                                    </Link>
-                                </div>
-                            </article>
-                        ))}
-                    </div>
-
-                    <p className="mt-5 text-xs leading-5 text-slate-500">
-                        Project cards currently show previews. Connect each card to its
-                        individual project details when those pages are ready.
-                    </p>
-                </div>
-            </section>
-
-            {/* WHY CHOOSE US */}
-            <section className="section-padding bg-white">
-                <div className="container-width grid items-center gap-10 lg:grid-cols-2">
-                    <div>
-                        <p className="text-sm font-bold uppercase tracking-[0.18em] text-orange-600">
-                            Why Shiuli Technology
-                        </p>
-
-                        <h2 className="mt-3 text-3xl font-black leading-tight tracking-tight text-slate-950 sm:text-4xl">
-                            Good technology.
-                            <span className="block text-green-800">
-                                Thoughtful execution.
-                            </span>
-                        </h2>
-
-                        <p className="mt-5 max-w-xl leading-8 text-slate-600">
-                            We focus on understanding your needs, creating useful
-                            experiences and delivering maintainable solutions. Every project
-                            starts with a conversation about the problem you want to solve.
-                        </p>
-
-                        <Link
-                            to="/about"
-                            className="mt-7 inline-flex items-center gap-2 rounded-full border border-green-800/30 px-5 py-3 font-bold text-green-900 transition hover:bg-green-50"
-                        >
-                            Get to know us <ArrowRight size={17} />
-                        </Link>
-                    </div>
-
-                    <div className="grid gap-4 sm:grid-cols-2">
-                        <div className="rounded-3xl border border-green-100 bg-green-50/70 p-6">
-                            <ShieldCheck size={29} className="text-green-800" />
-                            <h3 className="mt-4 font-extrabold text-slate-900">
-                                Quality Focus
-                            </h3>
-                            <p className="mt-2 text-sm leading-7 text-slate-600">
-                                Thoughtful implementation and attention to detail.
-                            </p>
-                        </div>
-
-                        <div className="rounded-3xl border border-orange-100 bg-orange-50/70 p-6">
-                            <Lightbulb size={29} className="text-orange-600" />
-                            <h3 className="mt-4 font-extrabold text-slate-900">
-                                Practical Ideas
-                            </h3>
-                            <p className="mt-2 text-sm leading-7 text-slate-600">
-                                Technology selected to fit the actual problem.
-                            </p>
-                        </div>
-
-                        <div className="rounded-3xl border border-blue-100 bg-blue-50/70 p-6">
-                            <Globe size={29} className="text-blue-700" />
-                            <h3 className="mt-4 font-extrabold text-slate-900">
-                                Modern Solutions
-                            </h3>
-                            <p className="mt-2 text-sm leading-7 text-slate-600">
-                                Responsive web experiences and scalable foundations.
-                            </p>
-                        </div>
-
-                        <div className="rounded-3xl border border-purple-100 bg-purple-50/70 p-6">
-                            <GraduationCap size={29} className="text-purple-700" />
-                            <h3 className="mt-4 font-extrabold text-slate-900">
-                                Learning Together
-                            </h3>
-                            <p className="mt-2 text-sm leading-7 text-slate-600">
-                                Knowledge sharing and hands-on learning opportunities.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* FINAL CTA */}
-            <section className="bg-white pb-16 sm:pb-20">
-                <div className="container-width">
-                    <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-r from-green-950 via-green-900 to-green-800 px-7 py-10 text-white sm:px-12 sm:py-14">
-                        <div className="pointer-events-none absolute -right-12 -top-24 h-64 w-64 rounded-full bg-green-500/20 blur-3xl" />
-                        <div className="pointer-events-none absolute -bottom-24 left-1/3 h-48 w-48 rounded-full bg-orange-400/10 blur-3xl" />
-
-                        <div className="relative flex flex-col justify-between gap-8 md:flex-row md:items-center">
-                            <div>
-                                <p className="text-sm font-bold uppercase tracking-[0.18em] text-orange-300">
-                                    Let's work together
-                                </p>
-
-                                <h2 className="mt-3 max-w-2xl text-3xl font-black tracking-tight sm:text-4xl">
-                                    Have a project in mind?
-                                </h2>
-
-                                <p className="mt-4 max-w-xl leading-7 text-white/75">
-                                    Tell us what you want to build. Let's explore the right
-                                    solution for your business, school or idea.
-                                </p>
-                            </div>
-
-                            <Link
-                                to="/contact"
-                                className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-white px-6 py-4 font-bold text-green-950 transition hover:-translate-y-1 hover:bg-orange-100"
-                            >
-                                Let's talk <ArrowUpRight size={19} />
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </main>
-    )
+        <section className="sh-contact">
+          <div className="sh-wrap">
+            <h2>Let&apos;s grow something that lasts.</h2>
+            <p className="sh-lead">Tell us what you are building. We reply within one working day.</p>
+            <Link className="sh-btn" to="/contact">Start a project</Link>
+            <a className="sh-mail" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+          </div>
+        </section>
+      </main>
+    </div>
+  );
 }

@@ -98,7 +98,7 @@ export default function Contact() {
     ].join('\n')
 
     // Replace this placeholder with your official WhatsApp number.
-    const whatsappNumber = ''
+    const whatsappNumber = '9523605578'
 
     if (!whatsappNumber) {
       window.alert(
