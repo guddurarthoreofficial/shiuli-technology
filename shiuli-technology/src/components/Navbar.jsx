@@ -18,7 +18,6 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const close = () => setOpen(false);
 
-  // solid bar after the first bit of scroll
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
     onScroll();
@@ -26,25 +25,37 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // mobile menu: lock page scroll, close on Escape or when resized to desktop
   useEffect(() => {
     if (!open) return undefined;
-    const prev = document.body.style.overflow;
+
+    const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
-    const onKey = e => e.key === 'Escape' && setOpen(false);
-    const onResize = () => window.innerWidth > 960 && setOpen(false);
-    window.addEventListener('keydown', onKey);
+
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape') close();
+    };
+    const onResize = () => {
+      if (window.innerWidth > 960) close();
+    };
+
+    window.addEventListener('keydown', onKeyDown);
     window.addEventListener('resize', onResize);
+
     return () => {
-      document.body.style.overflow = prev;
-      window.removeEventListener('keydown', onKey);
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener('keydown', onKeyDown);
       window.removeEventListener('resize', onResize);
     };
   }, [open]);
 
   return (
     <header className={`sh-nav${scrolled ? ' is-scrolled' : ''}${open ? ' is-open' : ''}`}>
-      <Link className="sh-brand" to="/" aria-label="Shiuli Technology, home" onClick={close}>
+      <Link
+        className="sh-brand"
+        to="/"
+        aria-label="Shiuli Technology, home"
+        onClick={close}
+      >
         <ShiuliMark className="sh-mark" />
         <span>Shiuli Technology</span>
       </Link>
@@ -55,26 +66,41 @@ export default function Navbar() {
         aria-label={open ? 'Close menu' : 'Open menu'}
         aria-expanded={open}
         aria-controls="sh-menu"
-        onClick={() => setOpen(o => !o)}
+        onClick={() => setOpen((current) => !current)}
       >
         <span />
         <span />
       </button>
 
+      <div className="sh-backdrop" onClick={close} aria-hidden="true" />
+
       <nav id="sh-menu" className="sh-menu" aria-label="Primary">
-        {LINKS.map(l => (
+        <div className="sh-mobile-heading" aria-hidden="true">
+          <span className="sh-mobile-kicker">EXPLORE</span>
+          <span className="sh-mobile-title">Where ideas take shape.</span>
+        </div>
+
+        {LINKS.map((link, index) => (
           <NavLink
-            key={l.to}
-            to={l.to}
-            end={l.end}
+            key={link.to + link.label}
+            to={link.to}
+            end={link.end}
             onClick={close}
+            style={{ '--i': index }}
             className={({ isActive }) =>
-              'sh-link' + (l.cta ? ' is-cta' : '') + (isActive ? ' is-active' : '')
+              'sh-link' +
+              (link.cta ? ' is-cta' : '') +
+              (isActive ? ' is-active' : '')
             }
           >
-            {l.label}
+            <span>{link.label}</span>
           </NavLink>
         ))}
+
+        <div className="sh-mobile-footer" aria-hidden="true">
+          <span className="sh-mobile-footer-dot" />
+          <span>Thoughtfully built by Shiuli Technology</span>
+        </div>
       </nav>
     </header>
   );
