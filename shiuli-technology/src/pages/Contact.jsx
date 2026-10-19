@@ -44,8 +44,8 @@ const contactCards = [
     title: 'Email Us',
     value: 'Send us an enquiry',
     description: 'Share your project requirements with us.',
-    action: 'hello@shiulitech.in',
-    href: 'mailto:hello@shiulitech.in',
+    action: 'shiulitech@gmail.com',
+    href: 'mailto:shiulitech@gmail.com',
     tone: 'green',
   },
   {
@@ -63,7 +63,7 @@ const contactCards = [
     value: 'By appointment',
     description: 'Contact us to arrange a suitable time.',
     action: 'Get in touch',
-    href: 'mailto:hello@shiulitech.in',
+    href: 'mailto:shiulitech@gmail.com',
     tone: 'green',
   },
 ]

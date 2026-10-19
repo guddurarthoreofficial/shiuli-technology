@@ -14,3 +14,81 @@
 @media(max-width:720px){.sh-projects-moon{top:90px;right:8%;width:54px}.sh-projects-hero{min-height:auto;padding:125px 0 90px}.sh-projects-hero-grid{grid-template-columns:1fr;gap:45px}.sh-projects h1{font-size:clamp(3.15rem,13vw,5.2rem)}.sh-projects-lead{font-size:1rem}.sh-projects-hero-art{max-width:520px}.sh-projects-showcase{min-height:440px}.sh-projects-section-head{align-items:flex-start;flex-direction:column}.sh-projects-count{padding:10px 13px}.sh-projects-filter-row{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px}.sh-projects-filter-toggle{display:inline-flex}.sh-projects-category-list{display:none}.sh-projects-search{grid-column:1/-1}.sh-projects-mobile-categories{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;padding-top:12px;border-top:1px solid rgba(245,241,230,.08)}.sh-projects-mobile-categories button{border-color:var(--line)}.sh-projects-grid{gap:14px}.sh-projects-card-image{height:200px}.sh-projects-card-body{padding:18px}.sh-projects-card h3{font-size:1.45rem}.sh-projects-cta-panel{align-items:flex-start;flex-direction:column}.sh-projects-cta-panel h2{font-size:clamp(2.7rem,10vw,4rem)}.sh-projects-cta-panel>.sh-projects-button{width:100%}.sh-projects-bottom>.sh-projects-wrap{align-items:flex-start}.sh-projects-footer-brand{width:100%}}
 @media(max-width:520px){.sh-projects-actions{align-items:stretch;flex-direction:column}.sh-projects-button{width:100%}.sh-projects-proof{gap:15px}.sh-projects-proof>div{width:calc(50% - 10px)}.sh-projects-proof>div:last-child{width:100%}.sh-projects-showcase{min-height:400px;padding:22px 19px;border-radius:24px}.sh-projects-showcase-top{font-size:.54rem;gap:8px}.sh-projects-online{font-size:.48rem}.sh-projects-showcase-main{margin-top:65px}.sh-projects-showcase-main h2{font-size:3.25rem}.sh-projects-showcase-bottom{font-size:.48rem}.sh-projects-floating-card{right:-3px;bottom:8%;padding:11px 13px}.sh-projects-grid{grid-template-columns:1fr}.sh-projects-card-image{height:230px}.sh-projects-card-body{padding:21px}.sh-projects-active-filter button{margin-left:0}.sh-projects-cta-panel{padding:27px 21px;border-radius:24px}.sh-projects-bottom p{width:calc(100% - 60px)}}
 @media(prefers-reduced-motion:reduce){.sh-projects *,.sh-projects *:before,.sh-projects *:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.sh-projects-reveal{opacity:1!important;transform:none!important}.sh-projects-petals{display:none}}
+
+/* Shiuli flower-style brand mark */
+.sh-projects-brand-mark {
+  position: relative;
+  color: var(--shiuli);
+  font-family: Georgia, serif;
+  line-height: 1;
+}
+.sh-projects-flower {
+  display: inline-block;
+  font-size: 2rem;
+  line-height: 1;
+  transform-origin: center;
+  animation: sh-projects-flower-turn 18s linear infinite;
+}
+@keyframes sh-projects-flower-turn {
+  to { transform: rotate(360deg); }
+}
+.sh-projects-footer-flower { color: var(--shiuli); font-size: 1.4rem; }
+@media (prefers-reduced-motion: reduce) {
+  .sh-projects-flower { animation: none !important; }
+}
+
+
+/* Shiuli Technology — white flower logo */
+.sh-projects-brand-mark {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  place-items: center;
+  border-radius: 15px;
+  color: #f7f3e8;
+  background: rgba(255, 122, 31, 0.09);
+}
+
+.sh-projects-shiuli-logo {
+  display: block;
+  width: 36px;
+  height: 36px;
+  overflow: visible;
+  filter: drop-shadow(0 0 7px rgba(255, 122, 31, 0.12));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sh-projects-shiuli-logo {
+    animation: none;
+  }
+}
+
+
+/* White Shiuli flower logo */
+.sh-projects-brand-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sh-projects-shiuli-logo {
+  display: block;
+  width: 39px;
+  height: 39px;
+  overflow: visible;
+  filter: drop-shadow(
+    0 0 5px rgba(255, 255, 255, 0.12)
+  );
+}
+
+/* Remove old orange flower styling */
+.sh-projects-brand-mark .sh-projects-flower {
+  display: none;
+}

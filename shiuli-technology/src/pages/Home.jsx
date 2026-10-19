@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import ShiuliMark from '../components/ShiuliMark';
 import './Home.css';
 
-const CONTACT_EMAIL = 'hello@shiulitech.in'; // placeholder, apna real email daalo
+const CONTACT_EMAIL = 'shiulitech@gmail.com'; // placeholder, apna real email daalo
 
 const STORY =
   'The shiuli opens after dark. By morning it has covered the ground in white, and the whole garden smells of it. We build software the same way: quietly, through the night, so that what you wake up to is finished and worth walking out to.';

@@ -15,8 +15,13 @@ import {
   Mail,
   MapPin,
   MessageCircle,
-  ExternalLink,
 } from 'lucide-react';
+import {
+  FaFacebookF,
+  FaInstagram,
+  FaWhatsapp,
+  FaLinkedinIn,
+} from 'react-icons/fa6';
 import ShiuliMark from '../components/ShiuliMark';
 import './About.css';
 
@@ -36,22 +41,22 @@ const socials = [
   {
     label: 'Facebook',
     href: 'https://www.facebook.com/profile.php?id=61595562598658',
-    icon: ExternalLink,
+    icon: FaFacebookF,
   },
   {
     label: 'Instagram',
     href: 'https://www.instagram.com/shiulitech?obrf=cnRoN2c5YzRmNmoz',
-    icon: ExternalLink,
+    icon: FaInstagram,
   },
   {
     label: 'WhatsApp',
     href: 'https://wa.me/919523605578',
-    icon: MessageCircle,
+    icon: FaWhatsapp,
   },
   {
     label: 'LinkedIn',
     href: 'https://www.linkedin.com/search/results/companies/?keywords=Shiuli%20Technology',
-    icon: ExternalLink,
+    icon: FaLinkedinIn,
   },
   {
     label: 'Email',
@@ -199,18 +204,18 @@ export default function About() {
               <div className="sh-about-socials">{socials.map(({ label, href, icon: Icon }) => <a key={label} href={href} aria-label={label} title={label} target={href.startsWith('http') ? '_blank' : undefined} rel={href.startsWith('http') ? 'noreferrer noopener' : undefined}><Icon size={19} /></a>)}</div>
               <a className="sh-about-contact-link" href="mailto:shiulitech@gmail.com"><Mail size={17} /> shiulitech@gmail.com</a>
               <a className="sh-about-contact-link" href="https://wa.me/919523605578" target="_blank" rel="noreferrer noopener"><MessageCircle size={17} /> +91 95236 05578</a>
-              <p className="sh-about-contact-link"><MapPin size={17} /> Bettiah, West Champaran, Bihar, India</p>
+              <p className="sh-about-contact-link"><MapPin size={17} /> Rukanpura, Patna, Bihar, India- 800014</p>
             </div>
           </Reveal>
         </div>
       </section>
 
-      <footer className="sh-about-bottom"><div className="sh-about-wrap">
+      {/* <footer className="sh-about-bottom"><div className="sh-about-wrap">
         <Link to="/" className="sh-about-footer-brand"><ShiuliMark /><span>Shiuli Technology</span></Link>
         <p>© {new Date().getFullYear()} Shiuli Technology. All rights reserved.</p>
         <p className="sh-about-footer-tag">Built with ideas, creativity and technology.</p>
         <a href="#about-top" className="sh-about-back-top" aria-label="Back to top"><ArrowUpRight size={18} /></a>
-      </div></footer>
+      </div></footer> */}
     </main>
   );
 }

@@ -3,8 +3,9 @@ import { Link } from 'react-router-dom';
 import {
   ArrowRight, ArrowUpRight, Code2, Smartphone, Lightbulb, GraduationCap,
   Palette, ShieldCheck, Cloud, Sparkles, CheckCircle2, Rocket,
-  BriefcaseBusiness, Users, Mail, MessageCircle, ExternalLink,
+  BriefcaseBusiness, Users, Mail,
 } from 'lucide-react';
+import { FaFacebookF, FaInstagram, FaWhatsapp, FaLinkedinIn } from 'react-icons/fa6';
 import './Services.css';
 
 const services = [
@@ -30,10 +31,10 @@ const steps = [
 ];
 
 const socialLinks = [
-  { label: 'Facebook', href: 'https://www.facebook.com/profile.php?id=61595562598658', icon: ExternalLink },
-  { label: 'Instagram', href: 'https://www.instagram.com/shiulitech?obrf=cnRoN2c5YzRmNmoz', icon: ExternalLink },
-  { label: 'WhatsApp', href: 'https://wa.me/919523605578', icon: MessageCircle },
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/search/results/companies/?keywords=Shiuli%20Technology', icon: ExternalLink },
+  { label: 'Facebook', href: 'https://www.facebook.com/profile.php?id=61595562598658', icon: FaFacebookF },
+  { label: 'Instagram', href: 'https://www.instagram.com/shiulitech?obrf=cnRoN2c5YzRmNmoz', icon: FaInstagram },
+  { label: 'WhatsApp', href: 'https://wa.me/919523605578', icon: FaWhatsapp },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/search/results/companies/?keywords=Shiuli%20Technology', icon: FaLinkedinIn },
   { label: 'Email', href: 'mailto:shiulitech@gmail.com', icon: Mail },
 ];
 
@@ -215,7 +216,7 @@ export default function Services() {
         </div>
       </section>
 
-      <div className="sh-services-bottom"><div className="sh-services-wrap"><Link className="sh-services-footer-brand" to="/">✳ <span>Shiuli Technology</span></Link><p>Thoughtful digital solutions, built with purpose.</p><a className="sh-services-back-top" href="#services-top" aria-label="Back to top"><ArrowUpRight size={18} /></a></div></div>
+      {/* <div className="sh-services-bottom"><div className="sh-services-wrap"><Link className="sh-services-footer-brand" to="/">✳ <span>Shiuli Technology</span></Link><p>Thoughtful digital solutions, built with purpose.</p><a className="sh-services-back-top" href="#services-top" aria-label="Back to top"><ArrowUpRight size={18} /></a></div></div> */}
     </main>
   );
 }

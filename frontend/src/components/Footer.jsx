@@ -132,11 +132,11 @@ export default function Footer() {
             <ul className="sh-f-contact">
               <li>
                 <MapPin size={18} />
-                <span>Bettiah, West Champaran, Bihar, India</span>
+                <span>Rukanpura, Patna, Bihar, India- 800014</span>
               </li>
               <li>
                 <Mail size={18} />
-                <a href="mailto:hello@shiulitech.in" className="sh-f-link">hello@shiulitech.in</a>
+                <a href="mailto:shiulitech@gmail.com" className="sh-f-link">shiulitech@gmail.com</a>
               </li>
               <li>
                 <Link to="/contact" className="sh-f-more">

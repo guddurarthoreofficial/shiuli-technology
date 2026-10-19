@@ -68,9 +68,100 @@ const projects = [
     icon: Code2,
     status: 'Learning portfolio',
   },
+
+  {
+    title: 'E-Commerce Platform',
+    category: 'Business',
+    type: 'Full-Stack Store',
+    description: 'An online shopping platform concept with product discovery, cart, checkout, order history and admin catalogue tools.',
+    image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1000&q=85',
+    technologies: ['React', 'Node.js', 'MongoDB'],
+    icon: Layers3,
+    status: 'Portfolio concept',
+  },
+  {
+    title: 'Learning Management System',
+    category: 'Education',
+    type: 'Learning Platform',
+    description: 'A learning portal concept for course content, student progress, quizzes and instructor-managed lessons.',
+    image: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1000&q=85',
+    technologies: ['React', 'Express.js', 'MongoDB'],
+    icon: GraduationCap,
+    status: 'Portfolio concept',
+  },
+  {
+    title: 'Food Ordering & Delivery',
+    category: 'Business',
+    type: 'Ordering Platform',
+    description: 'A food ordering experience concept with restaurant menus, order tracking and an operations dashboard.',
+    image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=1000&q=85',
+    technologies: ['React', 'Node.js', 'REST API'],
+    icon: Smartphone,
+    status: 'Portfolio concept',
+  },
+  {
+    title: 'Appointment Booking System',
+    category: 'Healthcare',
+    type: 'Booking Platform',
+    description: 'A booking workflow concept for service availability, appointment requests, reminders and staff schedules.',
+    image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1000&q=85',
+    technologies: ['React', 'Express.js', 'MongoDB'],
+    icon: BriefcaseBusiness,
+    status: 'Portfolio concept',
+  },
+  {
+    title: 'Job & Recruitment Portal',
+    category: 'Business',
+    type: 'Web Application',
+    description: 'A job portal concept with searchable vacancies, candidate profiles, applications and recruiter tools.',
+    image: 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1000&q=85',
+    technologies: ['React', 'Node.js', 'SQL'],
+    icon: Code2,
+    status: 'Portfolio concept',
+  },
+  {
+    title: 'Real Estate Listing Portal',
+    category: 'Business',
+    type: 'Listing Platform',
+    description: 'A property discovery concept with listing filters, image galleries, enquiry forms and agent dashboards.',
+    image: 'https://cdn.mos.cms.futurecdn.net/FyuJDMicboPjn8mkbsq5vQ.jpg',
+    technologies: ['React', 'Node.js', 'MongoDB'],
+    icon: Layers3,
+    status: 'Portfolio concept',
+  },
+  {
+    title: 'Expense & Finance Tracker',
+    category: 'Business',
+    type: 'Dashboard',
+    description: 'A personal finance dashboard concept for recording income, categorising expenses and reviewing monthly summaries.',
+    image: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1000&q=85',
+    technologies: ['React', 'Node.js', 'Charts'],
+    icon: Code2,
+    status: 'Portfolio concept',
+  },
+  {
+    title: 'Real-Time Chat Application',
+    category: 'Communication',
+    type: 'Real-Time App',
+    description: 'A messaging app concept with conversations, online status, notifications and real-time event delivery.',
+    image: 'https://images.unsplash.com/photo-1611746872915-64382b5c76da?auto=format&fit=crop&w=1000&q=85',
+    technologies: ['React', 'Socket.IO', 'Node.js'],
+    icon: Smartphone,
+    status: 'Portfolio concept',
+  },
+  {
+    title: 'Task & Team Management',
+    category: 'Business',
+    type: 'Productivity App',
+    description: 'A team workspace concept with task assignments, project boards, deadlines and progress summaries.',
+    image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1000&q=85',
+    technologies: ['React', 'Express.js', 'MongoDB'],
+    icon: Layers3,
+    status: 'Portfolio concept',
+  },
 ];
 
-const categories = ['All Projects', 'Education', 'Business', 'Healthcare', 'Mobile Apps'];
+const categories = ['All Projects', 'Education', 'Business', 'Healthcare', 'Mobile Apps', 'Communication'];
 
 function Reveal({ children, className = '', delay = 0 }) {
   const ref = useRef(null);
@@ -161,16 +252,89 @@ export default function Projects() {
             </div>
           </Reveal>
 
+
           <Reveal className="sh-projects-hero-art" delay={130}>
             <div className="sh-projects-art-glow" />
+
             <div className="sh-projects-showcase">
-              <div className="sh-projects-showcase-top"><span className="sh-projects-brand-mark">✳</span><span>SHIULI TECHNOLOGY</span><span className="sh-projects-online"><i /> DIGITAL STUDIO</span></div>
-              <div className="sh-projects-showcase-main"><p className="sh-projects-kicker">THE WORK IN PROGRESS</p><h2>Make ideas<br /><em>matter.</em></h2><p>Thoughtful design. Useful technology. Real-world purpose.</p></div>
-              <div className="sh-projects-showcase-lines"><span /><span /><span /></div>
-              <div className="sh-projects-showcase-bottom"><span>01 — IMAGINE</span><span>02 — CREATE</span><span>03 — IMPROVE</span></div>
+              <div className="sh-projects-showcase-top">
+                <span className="sh-projects-brand-mark">
+                  <svg
+                    className="sh-projects-shiuli-logo"
+                    viewBox="0 0 48 48"
+                    role="img"
+                    aria-label="Shiuli Technology flower logo"
+                  >
+                    <g fill="#F7F3E8">
+                      <ellipse cx="24" cy="13" rx="5.5" ry="10" />
+                      <ellipse
+                        cx="34" cy="19" rx="5.5" ry="10"
+                        transform="rotate(60 34 19)"
+                      />
+                      <ellipse
+                        cx="34" cy="30" rx="5.5" ry="10"
+                        transform="rotate(120 34 30)"
+                      />
+                      <ellipse cx="24" cy="35" rx="5.5" ry="10" />
+                      <ellipse
+                        cx="14" cy="30" rx="5.5" ry="10"
+                        transform="rotate(60 14 30)"
+                      />
+                      <ellipse
+                        cx="14" cy="19" rx="5.5" ry="10"
+                        transform="rotate(120 14 19)"
+                      />
+                    </g>
+                    <circle cx="24" cy="24" r="4" fill="#FF7A1F" />
+                  </svg>
+                </span>
+
+                <span>SHIULI TECHNOLOGY</span>
+
+                <span className="sh-projects-online">
+                  <i /> DIGITAL STUDIO
+                </span>
+              </div>
+
+              <div className="sh-projects-showcase-main">
+                <p className="sh-projects-kicker">
+                  THE WORK IN PROGRESS
+                </p>
+
+                <h2>
+                  Make ideas
+                  <br />
+                  <em>matter.</em>
+                </h2>
+
+                <p>
+                  Thoughtful design. Useful technology.
+                  Real-world purpose.
+                </p>
+              </div>
+
+              <div className="sh-projects-showcase-lines">
+                <span />
+                <span />
+                <span />
+              </div>
+
+              <div className="sh-projects-showcase-bottom">
+                <span>01 — IMAGINE</span>
+                <span>02 — CREATE</span>
+                <span>03 — IMPROVE</span>
+              </div>
             </div>
-            <div className="sh-projects-floating-card"><Layers3 size={18} /><span><strong>Ideas into impact</strong><small>One project at a time</small></span></div>
+
+            <div className="sh-projects-floating-card">
+              <Layers3 size={18} />
+              <span>
+                <strong>Ideas into impact</strong>
+                <small>One project at a time</small>
+              </span>
+            </div>
           </Reveal>
+
         </div>
         <a className="sh-projects-scroll" href="#project-gallery" aria-label="Scroll to project gallery"><span>DISCOVER</span><i /></a>
       </section>
@@ -230,7 +394,7 @@ export default function Projects() {
         </div>
       </section>
 
-      <div className="sh-projects-bottom"><div className="sh-projects-wrap"><Link className="sh-projects-footer-brand" to="/"><span>✳</span> Shiuli Technology</Link><p>Thoughtful digital solutions, built with purpose.</p><a className="sh-projects-back-top" href="#projects-top" aria-label="Back to top"><ArrowUpRight size={18} /></a></div></div>
+      {/* <div className="sh-projects-bottom"><div className="sh-projects-wrap"><Link className="sh-projects-footer-brand" to="/"><span className="sh-projects-footer-flower">✿</span> Shiuli Technology</Link><p>Thoughtful digital solutions, built with purpose.</p><a className="sh-projects-back-top" href="#projects-top" aria-label="Back to top"><ArrowUpRight size={18} /></a></div></div> */}
     </main>
   );
 }

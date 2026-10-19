@@ -44,7 +44,7 @@ const contactCards = [
     value: 'Send us an enquiry',
     description: 'Share your project requirements with us.',
     color: 'bg-green-100 text-green-800',
-    href: 'mailto:hello@shiulitech.in',
+    href: 'mailto:shiulitech@gmail.com',
   },
   {
     icon: MessageCircle,
