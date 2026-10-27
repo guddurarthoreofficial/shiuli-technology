@@ -23,6 +23,8 @@ import {
   FaLinkedinIn,
 } from 'react-icons/fa6';
 import ShiuliMark from '../components/ShiuliMark';
+
+import SEO from '../components/SEO';
 import './About.css';
 
 const values = [
@@ -107,6 +109,13 @@ export default function About() {
 
   return (
     <main ref={root} className={`sh-about${live ? ' is-live' : ''}`} id="about-top">
+
+      <SEO
+        title="About Shiuli Technology | Our Mission & Vision"
+        description="Learn about Shiuli Technology, our mission, values and approach to web development, mobile applications and custom software solutions."
+        path="/about"
+      />
+      
       <div className="sh-about-sky" aria-hidden="true" />
       <div className="sh-about-moon" aria-hidden="true" />
       <div className="sh-about-grain" aria-hidden="true" />
@@ -210,12 +219,7 @@ export default function About() {
         </div>
       </section>
 
-      {/* <footer className="sh-about-bottom"><div className="sh-about-wrap">
-        <Link to="/" className="sh-about-footer-brand"><ShiuliMark /><span>Shiuli Technology</span></Link>
-        <p>© {new Date().getFullYear()} Shiuli Technology. All rights reserved.</p>
-        <p className="sh-about-footer-tag">Built with ideas, creativity and technology.</p>
-        <a href="#about-top" className="sh-about-back-top" aria-label="Back to top"><ArrowUpRight size={18} /></a>
-      </div></footer> */}
+
     </main>
   );
 }

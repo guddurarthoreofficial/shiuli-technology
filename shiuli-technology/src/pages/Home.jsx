@@ -1,7 +1,9 @@
 import { Fragment, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import ShiuliMark from '../components/ShiuliMark';
+import SEO from '../components/SEO';
 import './Home.css';
+
 
 const CONTACT_EMAIL = 'shiulitech@gmail.com'; // placeholder, apna real email daalo
 
@@ -425,6 +427,13 @@ export default function Home() {
 
   return (
     <div className="shiuli-home">
+
+      <SEO
+        title="Shiuli Technology | Web & App Development Company"
+        description="Shiuli Technology builds web applications, mobile apps, backend APIs, and custom software solutions for businesses."
+        path="/"
+      />
+
       <div className="sh-sky" ref={skyRef} />
       <div className="sh-moon" ref={moonRef} />
       <canvas className="sh-scene" ref={canvasRef} aria-hidden="true" />

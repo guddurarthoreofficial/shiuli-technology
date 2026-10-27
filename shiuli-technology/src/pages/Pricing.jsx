@@ -5,6 +5,7 @@ import {
   Lightbulb, Sparkles, Building2, Palette, ShieldCheck, MessageCircle,
   ChevronDown,
 } from 'lucide-react';
+import SEO from '../components/SEO';
 import './Pricing.css';
 
 const plans = [
@@ -134,6 +135,13 @@ export default function Pricing() {
 
   return (
     <main ref={root} id="pricing-top" className={`sh-pricing${live ? ' is-live' : ''}`}>
+
+      <SEO
+        title="Website & Software Development Pricing | Shiuli Technology"
+        description="Explore Shiuli Technology pricing for website development, custom software, mobile apps, school management systems, UI/UX design and IT consulting."
+        path="/pricing"
+      />
+
       <div className="sh-pricing-sky" aria-hidden="true" />
       <div className="sh-pricing-moon" aria-hidden="true" />
       <div className="sh-pricing-grain" aria-hidden="true" />

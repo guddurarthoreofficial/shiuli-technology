@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import emailjs from '@emailjs/browser'
 import { Link } from 'react-router-dom'
+import SEO from '../components/SEO'
 import {
   ArrowRight,
   Mail,
@@ -199,6 +200,13 @@ export default function Contact() {
 
   return (
     <main className="st-contact">
+
+      <SEO
+        title="Contact Shiuli Technology | Get a Project Quote"
+        description="Contact Shiuli Technology for website development, mobile apps, custom software, school management systems, UI/UX design and IT consulting. Discuss your project and budget with our team."
+        path="/contact"
+      />
+
       <div className="st-night-sky" aria-hidden="true">
         <span className="st-star st-star-1" />
         <span className="st-star st-star-2" />

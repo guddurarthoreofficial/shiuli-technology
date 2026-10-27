@@ -5,6 +5,7 @@ import {
   BriefcaseBusiness, Search, Sparkles, ExternalLink, Layers3,
   CheckCircle2, X, SlidersHorizontal,
 } from 'lucide-react';
+import SEO from '../components/SEO';
 import './Projects.css';
 
 const projects = [
@@ -230,6 +231,13 @@ export default function Projects() {
 
   return (
     <main ref={root} id="projects-top" className={`sh-projects${live ? ' is-live' : ''}`}>
+
+      <SEO
+        title="Our Projects & Portfolio | Shiuli Technology"
+        description="Explore Shiuli Technology's web applications, school attendance systems, mobile apps and custom software project concepts built with modern technologies."
+        path="/projects"
+      />
+
       <div className="sh-projects-sky" aria-hidden="true" />
       <div className="sh-projects-moon" aria-hidden="true" />
       <div className="sh-projects-grain" aria-hidden="true" />

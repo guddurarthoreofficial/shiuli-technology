@@ -6,6 +6,7 @@ import {
   BriefcaseBusiness, Users, Mail,
 } from 'lucide-react';
 import { FaFacebookF, FaInstagram, FaWhatsapp, FaLinkedinIn } from 'react-icons/fa6';
+import SEO from '../components/SEO';
 import './Services.css';
 
 const services = [
@@ -91,6 +92,12 @@ export default function Services() {
 
   return (
     <main ref={root} id="services-top" className={`sh-services${live ? ' is-live' : ''}`}>
+
+      <SEO
+        title="Web & App Development Services | Shiuli Technology"
+        description="Explore Shiuli Technology's web development, mobile app development, custom software, UI/UX design, IT consulting and maintenance services."
+        path="/services"
+      />
       <div className="sh-services-sky" aria-hidden="true" />
       <div className="sh-services-moon" aria-hidden="true" />
       <div className="sh-services-grain" aria-hidden="true" />
